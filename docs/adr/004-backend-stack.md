@@ -35,3 +35,7 @@ Layering: `api/` (HTTP only) → `services/` (business rules: selection, metrics
 ## Revisit when
 
 Data grows beyond memory or multiple regions and fuel types are added. Move to a columnar store.
+
+## Update 2026-10-31
+
+Amended by [ADR-014](014-python-standards-and-structure.md): pandas is not used in v1. The domain rules are plain Python, which keeps the deployment bundle small and each metric explicitly defined. FastAPI and Pydantic are unchanged.

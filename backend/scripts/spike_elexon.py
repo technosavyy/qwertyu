@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Spike: probe the Elexon BMRS stream endpoints (ADR-003).
+"""THROWAWAY SPIKE, not production code. Probes the Elexon BMRS stream endpoints (ADR-003).
+
+Replaced by the typed, tested ingestion package in PR 2 (ADR-014), then deleted.
 
 Standard library only, nothing to install.
 

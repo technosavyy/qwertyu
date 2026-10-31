@@ -42,6 +42,7 @@ For this product, "best customer experience" is made concrete as five measurable
 | [011](011-containerisation-and-deployment.md) | One Docker image, deployed to a single public URL | Proposed | CX4 |
 | [012](012-testing-and-quality.md) | Test the rules the buyer relies on | Proposed | CX2 |
 | [013](013-hourly-comparison-resolution.md) | Compare forecasts and actuals at hourly resolution | Proposed | CX2, CX5 |
+| [014](014-python-standards-and-structure.md) | Python code standards and backend structure | Proposed | CX2, CX4 |
 
 ## Status meanings
 
