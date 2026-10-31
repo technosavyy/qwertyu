@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-31T15:55:37Z",
+  "source": {
+    "base_url": "https://data.elexon.co.uk/bmrs/api/v1/datasets"
+  },
+  "delivery_window": {
+    "first_day": "2026-01-01",
+    "last_day": "2026-01-31"
+  },
+  "actuals": {
+    "file": "actuals.csv",
+    "rows": 1488,
+    "sha256": "6481a111f5fb97fb681ae6614c925ca3ec0e75c4ea8ef0833f25d2e0dbe9c69e"
+  },
+  "forecasts": {
+    "file": "forecasts.csv",
+    "rows": 11408,
+    "sha256": "4029215ff95257893d6fb46055576437af68c5db2d38758a3f2686480ee81cc5"
+  }
+}
