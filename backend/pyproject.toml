@@ -7,7 +7,9 @@ name = "windfc"
 version = "0.1.0"
 description = "Wind forecast decision support for day-ahead power buyers"
 requires-python = ">=3.11"
-dependencies = []
+# tzdata supplies the Europe/London rules on systems without an OS timezone database (slim
+# Docker images, Windows).
+dependencies = ["tzdata>=2024.1"]
 
 [project.optional-dependencies]
 dev = [

@@ -19,3 +19,7 @@ class ElexonHttpError(ElexonError):
 
 class SnapshotError(WindfcError):
     """Source data or a snapshot on disk is missing, malformed or inconsistent."""
+
+
+class InsufficientDataError(WindfcError):
+    """A calculation needs data that is not there, for example metrics over zero hours."""

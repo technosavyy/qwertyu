@@ -46,6 +46,12 @@ MAPE is not shown.
 - Metrics are computed on the joined forecast/actual set, so missing actuals are excluded and counted (ADR-009).
 - Definitions live in one backend module and are quoted verbatim in the UI help text.
 
+## Amendment (2026-11-01): how percentiles are calculated
+
+P90 and P95 use the **nearest-rank** method: the smallest observed miss such that at least 90% (or 95%) of hours had a miss at or below it. This keeps the label "misses stay below this 90% of the time" literally true for the data shown.
+
+Interpolating methods were rejected. They can return a value that fewer than 90% of hours stayed under: on January data, linear interpolation gives 4,300 MW, which only 89.9% of hours stayed at or below. The data spike used numpy's `lower` method and reported 4,248 MW, which understated the risk. Corrected January figures at the 09:00 cutoff are P90 4,323 MW and P95 5,310 MW. A regression test pins them (`tests/domain/test_january_headline.py`).
+
 ## Revisit when
 
 The client defines their own tolerance or cost-of-error asymmetry. Then add a cost-weighted metric.
