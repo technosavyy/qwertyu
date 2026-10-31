@@ -23,3 +23,7 @@ class SnapshotError(WindfcError):
 
 class InsufficientDataError(WindfcError):
     """A calculation needs data that is not there, for example metrics over zero hours."""
+
+
+class InvalidRequestError(WindfcError):
+    """A caller asked for something the data cannot answer, such as a day outside the window."""

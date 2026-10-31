@@ -34,6 +34,14 @@ Early days with too little history (fewer than 3 prior days) show "Not enough hi
 - A month-level summary view (all days) is still available but is labelled "retrospective".
 - The backtest could also report how often actual wind fell below the buffered level, which validates the method.
 
+## Amendment (2026-11-01): no look-ahead, exact definition, back-test
+
+**History ends at the cutoff, not at midnight.** "Days before D" would include the afternoon of D-1, whose actuals do not exist yet when the buyer decides at 09:00 on D-1. History is therefore every hour that had *finished* by the cutoff (`start + 1h <= cutoff`). A buffer is shown once there are at least 72 such hours (three days); before that the UI says "Not enough history yet". With a 09:00 cutoff the first buffer is for 5 January.
+
+**Definition.** Buffer X = nearest-rank P90 (or P95) of past *signed* errors (forecast − actual), floored at zero. Hours where the forecast was too low count as hours where it was "not too high", which is exactly the sentence shown to the buyer. Plan-for value = max(0, forecast − X).
+
+**Back-test (honest check).** Replaying every day of January at 09:00, the buffer would have been enough in 88.7% of hours at P90 (575 of 648) and 91.8% at P95 (595 of 648). Both are a little short of their label because the bias drifts week to week (1,100 to 2,700 MW), so past errors understate the next day's. The API returns this coverage and the UI shows it next to the buffer, so the buyer sees the real hit rate, not only the target.
+
 ## Revisit when
 
 The client wants a day-type or time-of-day specific buffer (for example per hour), once more history exists.
