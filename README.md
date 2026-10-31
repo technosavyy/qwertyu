@@ -8,21 +8,21 @@ Helps a UK day-ahead power buyer see the wind forecast available at decision tim
 |------|-------|
 | Architecture decisions | Written, see [docs/adr](docs/adr/README.md) |
 | Data ingestion and snapshot | Done: verified CSV snapshot in `data/snapshot/` |
-| Core rules (selection, metrics, buffer) | Next |
-| API, frontend, Docker, deployment | Planned |
+| Core rules (selection, alignment, metrics) | Done: `backend/src/windfc/domain/` |
+| Safety buffer and API | Done: `backend/src/windfc/services/`, `backend/src/windfc/api/` |
+| Frontend, Docker, deployment | Planned |
 
 ## Files and directories
 
 | Path | Purpose |
 |------|---------|
 | `docs/adr/` | Architecture decision records, one per decision |
-| `backend/src/windfc/` | Python package (domain models, ingestion, snapshot loader) |
+| `backend/src/windfc/` | Python package: `domain/` (pure rules), `services/` (answers per screen), `api/` (HTTP only), `ingestion/`, `data/` |
 | `backend/tests/` | Tests, one module per source module |
 | `backend/pyproject.toml`, `backend/Makefile` | Dependencies, tool settings, quality gate |
 | `frontend/` | React + TypeScript dashboard (not started) |
 | `data/snapshot/` | Committed Elexon snapshot the app serves from: `actuals.csv`, `forecasts.csv`, `manifest.json` |
 | `data/raw/` | Raw Elexon downloads (git-ignored) |
-| `backend/scripts/` | Throwaway data-probing script, removed once ingestion landed |
 
 ## Backend: run the quality gate
 
@@ -30,7 +30,7 @@ Needs Python 3.11 or newer.
 
 ```bash
 cd backend
-python3 -m venv .venv && source .venv/bin/activate
+python3 -m venv ~/.venvs/windfc && source ~/.venvs/windfc/bin/activate
 make install
 make check        # ruff, mypy --strict, pytest with coverage
 ```
@@ -48,7 +48,23 @@ The snapshot's manifest records row counts and SHA-256 checksums; the loader ref
 
 ## How to start the application
 
-To be completed once the API and frontend are built.
+API (from `backend/`, with the virtual environment active):
+
+```bash
+uvicorn windfc.api.main:app --reload
+```
+
+Then open http://127.0.0.1:8000/api/docs for interactive API docs.
+
+| Endpoint | Answers |
+|----------|---------|
+| `GET /api/meta` | Date range, default day and cutoff, buffer levels, forecast run times |
+| `GET /api/day?date=2026-01-31&cutoff=09:00&confidence=90` | The forecast available at the cutoff, hour by hour, with actuals and the "plan for" level |
+| `GET /api/accuracy?cutoff=09:00&confidence=90` | Accuracy over the month, by hour of day and by day, and how often the buffer would have been enough |
+| `GET /api/revisions?start_time=2026-01-31T17:00:00Z` | Every forecast published for one hour, and which one was usable |
+| `GET /api/health` | Liveness and snapshot date |
+
+The frontend is not built yet.
 
 ## Live app
 

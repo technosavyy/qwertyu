@@ -19,3 +19,6 @@ test:
 	pytest --cov=windfc --cov-report=term-missing --cov-fail-under=$(COV_MIN)
 
 check: lint typecheck test
+
+run:
+	uvicorn windfc.api.main:app --reload
