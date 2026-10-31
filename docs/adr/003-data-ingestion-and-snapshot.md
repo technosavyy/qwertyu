@@ -16,7 +16,7 @@ Data comes from two Elexon BMRS stream endpoints (FUELHH for actuals, WINDFOR fo
 
 ## Decision
 
-Option 3. A script (`backend/ingest.py`) fetches:
+Option 3. The `windfc.ingestion` package fetches (`python -m windfc.ingestion fetch`, then `build` to create the snapshot offline):
 
 - FUELHH for 1 to 31 January 2026, filtered to `fuelType == "WIND"`.
 - WINDFOR for publish times covering late December 2025 through January 2026, so that early-January target slots have forecasts.

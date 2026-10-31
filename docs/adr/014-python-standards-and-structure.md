@@ -36,14 +36,14 @@ backend/
       client.py             Elexon HTTP client: retries, typed errors
       build_snapshot.py     raw files to snapshot CSV plus manifest
     api/                    FastAPI app, routes, response schemas
-  tests/                    mirrors src/, no network access
+  tests/                    one test module per source module, no network access
 ```
 
 Dependencies point one way: `api` and `ingestion` use `domain`; `domain` imports nothing from them.
 
 ### Rules
 
-- Python 3.12, full type hints, `mypy --strict` clean.
+- Python 3.11 or newer (the Docker image pins 3.12), full type hints, `mypy --strict` clean.
 - `ruff` for linting and formatting (one tool).
 - Domain values are immutable dataclasses; pydantic is used only at the API boundary.
 - Domain code uses plain Python and the standard library. Pandas is not needed for this data volume and would enlarge the deployment bundle. Percentile and mean definitions are implemented explicitly and documented, so the buyer-facing numbers have exactly one meaning.
@@ -51,7 +51,7 @@ Dependencies point one way: `api` and `ingestion` use `domain`; `domain` imports
 - No `print` in application code; use `logging`. Library code raises typed exceptions (for example `ElexonError`, `SnapshotError`); only command-line entry points turn them into exit codes.
 - Small functions with one job, small modules. Docstrings state the business rule in words and cite the ADR.
 - Tests use pytest, hand-calculated fixtures and no network (the Elexon client is tested against a fake transport). Domain coverage target 90% or higher.
-- Quality gates run locally via pre-commit and in CI on every PR: `ruff check`, `ruff format --check`, `mypy`, `pytest`. A PR cannot merge while a gate fails.
+- Quality gates run locally via pre-commit and in CI on every PR: `ruff check`, `ruff format --check`, `mypy`, `pytest` with a coverage floor. One command runs all of them: `make -C backend check`. A PR cannot merge while a gate fails.
 - Dependencies are pinned for a reproducible install.
 
 ## CX impact
