@@ -38,6 +38,16 @@ Controls (day and cutoff) sit in the header and update everything at once. The p
 - Fewer separate screens, so a longer page. Mitigated with a clear visual hierarchy.
 - Chart and cards share one data fetch per selection, simplifying state.
 
+## Amendment (2026-11-01): the screen as built
+
+The page leads with three things, top to bottom:
+
+1. **Decision clock.** The decision day as a timeline of the eight forecast runs, with the decision time marked. It states which run the decision uses and which it just misses ("The next, at 09:30, arrives 30 minutes too late"). Picking a run sets the decision time to that moment, so the cutoff control is the timeline itself.
+2. **Answer panel.** "Plan for this much wind": the plan-for level averaged over the day's hours, the sentence explaining the margin, the tightest hour, the January back-test hit rate next to the target, and how many past hours the margin rests on. Without enough history it shows the forecast and says why there is no margin; with nothing published before the cutoff it says to pick a later run.
+3. **Hour by hour.** Each hour as a column: solid up to the plan-for level, hatched orange from there to the forecast (the margin), a level mark for what actually came. Hover, click or arrow keys read out one hour in words, including whether actual wind stayed above the plan.
+
+Day and safety level sit in the top bar. The current view is mirrored in the address bar so it can be shared. Colour is never the only carrier of meaning: every value is also stated in text.
+
 ## Revisit when
 
 Usability feedback from real buyers contradicts this ordering.

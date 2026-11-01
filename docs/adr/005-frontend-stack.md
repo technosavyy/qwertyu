@@ -35,6 +35,10 @@ React + TypeScript + Vite + Recharts. TypeScript types for API responses are kep
 - Recharts has less built-in interactivity than Plotly (no box-zoom). Acceptable for this scope.
 - Custom styling is our responsibility, which gives us control over plain-language labels and colour-blind-safe palettes.
 
+## Amendment (2026-11-01): charts are hand-drawn SVG, no Recharts
+
+The one chart the decision needs (hourly columns split into plan-for and margin, with an actual-level mark) is drawn directly in SVG in `HourlyChart.tsx`. It is about 150 lines, adds no dependency, keeps the bundle small (CX4), and gives full control over the hatch pattern, keyboard reading and screen-reader text (CX2, CX3). Recharts can be added later if charts multiply.
+
 ## Revisit when
 
 Users need advanced analytical interaction. Then evaluate Plotly or ECharts for specific views.

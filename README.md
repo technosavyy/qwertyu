@@ -10,7 +10,9 @@ Helps a UK day-ahead power buyer see the wind forecast available at decision tim
 | Data ingestion and snapshot | Done: verified CSV snapshot in `data/snapshot/` |
 | Core rules (selection, alignment, metrics) | Done: `backend/src/windfc/domain/` |
 | Safety buffer and API | Done: `backend/src/windfc/services/`, `backend/src/windfc/api/` |
-| Frontend, Docker, deployment | Planned |
+| Frontend: decision strip and controls | Done: `frontend/` |
+| Frontend: charts, accuracy, revisions, method | Next |
+| Docker, deployment | Planned |
 
 ## Files and directories
 
@@ -20,7 +22,7 @@ Helps a UK day-ahead power buyer see the wind forecast available at decision tim
 | `backend/src/windfc/` | Python package: `domain/` (pure rules), `services/` (answers per screen), `api/` (HTTP only), `ingestion/`, `data/` |
 | `backend/tests/` | Tests, one module per source module |
 | `backend/pyproject.toml`, `backend/Makefile` | Dependencies, tool settings, quality gate |
-| `frontend/` | React + TypeScript dashboard (not started) |
+| `frontend/` | React + TypeScript + Vite dashboard: `src/api/` (contract and calls), `src/lib/` (pure logic), `src/components/`, `src/styles/` (design tokens) |
 | `data/snapshot/` | Committed Elexon snapshot the app serves from: `actuals.csv`, `forecasts.csv`, `manifest.json` |
 | `data/raw/` | Raw Elexon downloads (git-ignored) |
 
@@ -64,7 +66,16 @@ Then open http://127.0.0.1:8000/api/docs for interactive API docs.
 | `GET /api/revisions?start_time=2026-01-31T17:00:00Z` | Every forecast published for one hour, and which one was usable |
 | `GET /api/health` | Liveness and snapshot date |
 
-The frontend is not built yet.
+Frontend (needs Node 20 or newer), in a second terminal while the API runs:
+
+```bash
+cd frontend
+npm install
+npm run dev        # http://localhost:5173, forwards /api to the API on port 8000
+npm run check      # typecheck, lint, tests, production build
+```
+
+The address bar holds the current view (`?date=2026-01-31&cutoff=09:00&confidence=90`), so a view can be bookmarked or shared.
 
 ## Live app
 
