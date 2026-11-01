@@ -46,6 +46,14 @@ The page leads with three things, top to bottom:
 2. **Answer panel.** "Plan for this much wind": the plan-for level averaged over the day's hours, the sentence explaining the margin, the tightest hour, the January back-test hit rate next to the target, and how many past hours the margin rests on. Without enough history it shows the forecast and says why there is no margin; with nothing published before the cutoff it says to pick a later run.
 3. **Hour by hour.** Each hour as a column: solid up to the plan-for level, hatched orange from there to the forecast (the margin), a level mark for what actually came. Hover, click or arrow keys read out one hour in words, including whether actual wind stayed above the plan.
 
+Below them:
+
+4. **How good is the forecast?** January accuracy at the chosen decision time in four plain figures (typical miss, how far it runs high or low, the misses 9 in 10 and 19 in 20 stay under), the typical miss by hour of day with the worst hour named, and the daily bias, which explains why the back-tested margin falls a little short.
+5. **How the forecast changed** for the hour selected on the chart: every forecast published before the day, which were available at the decision time, the one used, the last one, and what came.
+6. **How this is calculated**: the rules, assumptions and limits, collapsed by default.
+
+Every chart also gives its values as a table for screen readers.
+
 Day and safety level sit in the top bar. The current view is mirrored in the address bar so it can be shared. Colour is never the only carrier of meaning: every value is also stated in text.
 
 ## Revisit when

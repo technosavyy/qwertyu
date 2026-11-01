@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { App } from "./App";
-import { accuracy, dayWithMargin, meta } from "./test/fixtures";
+import { accuracy, dayWithMargin, meta, revisions } from "./test/fixtures";
 
 function respond(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -21,6 +21,7 @@ beforeEach(() => {
     if (url.startsWith("/api/meta")) return respond(meta);
     if (url.startsWith("/api/day")) return respond(dayWithMargin());
     if (url.startsWith("/api/accuracy")) return respond(accuracy);
+    if (url.startsWith("/api/revisions")) return respond(revisions);
     return respond({ detail: "not found" }, 404);
   });
   vi.stubGlobal("fetch", fetchMock);
@@ -83,6 +84,18 @@ describe("App", () => {
 
     expect(fetchMock).toHaveBeenCalledWith(
       "/api/day?date=2026-01-30&cutoff=09%3A00&confidence=90",
+      expect.anything(),
+    );
+  });
+
+  it("shows accuracy, the selected hour's history and the method", async () => {
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "How good is the forecast?" })).toBeInTheDocument();
+    expect(await screen.findByText(/^Published 3 times before the day began/)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "How this is calculated" })).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/revisions?start_time=2026-01-31T17%3A00%3A00Z&cutoff=09%3A00",
       expect.anything(),
     );
   });

@@ -3,10 +3,13 @@ import { type ReactNode, useEffect, useState } from "react";
 import { api } from "./api/client";
 import type { Meta } from "./api/types";
 import { useApi } from "./api/useApi";
+import { AccuracySection } from "./components/AccuracySection";
 import { DayPicker } from "./components/DayPicker";
 import { DecisionClock } from "./components/DecisionClock";
 import { DecisionStrip } from "./components/DecisionStrip";
 import { HourlyChart } from "./components/HourlyChart";
+import { MethodPanel } from "./components/MethodPanel";
+import { RevisionsPanel } from "./components/RevisionsPanel";
 import { SafetyLevel } from "./components/SafetyLevel";
 import { StatusMessage } from "./components/StatusMessage";
 import { formatLondonShortDay } from "./lib/format";
@@ -32,6 +35,7 @@ function Dashboard({ meta }: { meta: Meta }) {
     selectionFromQuery(window.location.search, meta),
   );
   const query = selectionToQuery(selection);
+  const [selectedHour, setSelectedHour] = useState<string>();
   const update = (change: Partial<Selection>) => setSelection((current) => ({ ...current, ...change }));
 
   useEffect(() => {
@@ -65,8 +69,11 @@ function Dashboard({ meta }: { meta: Meta }) {
           />
           <div className="board__main">
             <DecisionStrip day={day.data} backtest={accuracy.data?.backtest} />
-            <HourlyChart key={query} hours={day.data.hours} />
+            <HourlyChart key={query} hours={day.data.hours} onSelect={setSelectedHour} />
           </div>
+          {accuracy.data ? <AccuracySection accuracy={accuracy.data} /> : null}
+          {selectedHour ? <RevisionsPanel startTime={selectedHour} cutoff={selection.cutoff} /> : null}
+          <MethodPanel />
         </div>
       ) : (
         <p className="loading">Loading the forecast for this day…</p>

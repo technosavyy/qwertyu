@@ -1,4 +1,4 @@
-import type { AccuracyView, DayView, Hour, Meta, Metrics } from "../api/types";
+import type { AccuracyView, DayView, Hour, Meta, Metrics, RevisionsView } from "../api/types";
 
 export const meta: Meta = {
   window: { first_day: "2026-01-01", last_day: "2026-01-31" },
@@ -82,10 +82,30 @@ export const accuracy: AccuracyView = {
   cutoff: "09:00",
   window: meta.window,
   overall: metrics,
-  by_hour: [],
-  by_day: [],
+  by_hour: Array.from({ length: 24 }, (_, hour) => ({
+    hour,
+    metrics: { ...metrics, mae_mw: hour === 5 ? 2535 : 2000 },
+  })),
+  by_day: [
+    { day: "2026-01-01", metrics: { ...metrics, bias_mw: 1000 } },
+    { day: "2026-01-02", metrics: { ...metrics, bias_mw: -730 } },
+    { day: "2026-01-03", metrics: { ...metrics, bias_mw: 5375 } },
+  ],
   expected_hours: 744,
   hours_without_forecast: [],
   hours_without_actual: [],
   backtest: { confidence: 90, hours_tested: 648, hours_covered: 575, coverage_pct: 88.73 },
+};
+
+export const revisions: RevisionsView = {
+  start_time: "2026-01-31T17:00:00Z",
+  cutoff: "09:00",
+  cutoff_utc: "2026-01-30T09:00:00Z",
+  revisions: [
+    { publish_time: "2026-01-29T02:30:00Z", generation_mw: 12000, hours_ahead: 62.5, available_at_cutoff: true },
+    { publish_time: "2026-01-30T07:30:00Z", generation_mw: 11404, hours_ahead: 33.5, available_at_cutoff: true },
+    { publish_time: "2026-01-30T09:30:00Z", generation_mw: 10800, hours_ahead: 31.5, available_at_cutoff: false },
+  ],
+  selected_publish_time: "2026-01-30T07:30:00Z",
+  actual_mw: 8749.5,
 };

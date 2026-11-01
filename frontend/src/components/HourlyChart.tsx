@@ -1,32 +1,18 @@
-import { type KeyboardEvent, useEffect, useRef, useState } from "react";
+import { type KeyboardEvent, useEffect, useState } from "react";
 
 import type { Hour } from "../api/types";
 import { formatHourRange, formatLondonTime, formatMw } from "../lib/format";
 import { niceAxis } from "../lib/scale";
+import { useWidth } from "../lib/useWidth";
 
 interface Props {
   hours: Hour[];
+  onSelect?: (startTime: string) => void;
 }
 
 const HEIGHT = 340;
 const PAD = { top: 12, right: 8, bottom: 28, left: 52 };
 const FALLBACK_WIDTH = 720;
-
-function useWidth<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [width, setWidth] = useState(FALLBACK_WIDTH);
-  useEffect(() => {
-    const element = ref.current;
-    if (!element || typeof ResizeObserver === "undefined") return undefined;
-    const observer = new ResizeObserver(([entry]) => {
-      const measured = entry?.contentRect.width ?? 0;
-      if (measured > 0) setWidth(measured);
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
-  return [ref, width] as const;
-}
 
 function describe(hour: Hour): string {
   if (hour.actual_mw === null || hour.plan_for_mw === null) return "";
@@ -40,8 +26,8 @@ function describe(hour: Hour): string {
  * Each hour as a column: solid up to the plan-for level (wind to count on), hatched from there
  * to the forecast (the margin held back), with a level mark for what actually came.
  */
-export function HourlyChart({ hours }: Props) {
-  const [ref, width] = useWidth<HTMLDivElement>();
+export function HourlyChart({ hours, onSelect }: Props) {
+  const [ref, width] = useWidth<HTMLDivElement>(FALLBACK_WIDTH);
   const [selected, setSelected] = useState(() => {
     const tightest = hours.reduce(
       (best, hour, index) =>
@@ -63,6 +49,11 @@ export function HourlyChart({ hours }: Props) {
   const y = (mw: number) => PAD.top + plotHeight * (1 - mw / axis.max);
   const ticks = Array.from({ length: Math.round(axis.max / axis.step) + 1 }, (_, i) => i * axis.step);
   const current = hours[selected];
+  const currentStart = current?.start_time;
+
+  useEffect(() => {
+    if (currentStart && onSelect) onSelect(currentStart);
+  }, [currentStart, onSelect]);
   const labelEvery = width < 480 ? 6 : 3;
 
   function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {

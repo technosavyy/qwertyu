@@ -11,7 +11,7 @@ Helps a UK day-ahead power buyer see the wind forecast available at decision tim
 | Core rules (selection, alignment, metrics) | Done: `backend/src/windfc/domain/` |
 | Safety buffer and API | Done: `backend/src/windfc/services/`, `backend/src/windfc/api/` |
 | Frontend: decision strip and controls | Done: `frontend/` |
-| Frontend: charts, accuracy, revisions, method | Next |
+| Frontend: accuracy, forecast history, method | Done |
 | Docker, deployment | Planned |
 
 ## Files and directories
