@@ -81,3 +81,19 @@ export interface AccuracyView {
   hours_without_actual: IsoUtc[];
   backtest: Backtest;
 }
+
+export interface Revision {
+  publish_time: IsoUtc;
+  generation_mw: number;
+  hours_ahead: number;
+  available_at_cutoff: boolean;
+}
+
+export interface RevisionsView {
+  start_time: IsoUtc;
+  cutoff: HhMm;
+  cutoff_utc: IsoUtc;
+  revisions: Revision[];
+  selected_publish_time: IsoUtc | null;
+  actual_mw: number | null;
+}

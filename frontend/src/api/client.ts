@@ -1,4 +1,13 @@
-import type { AccuracyView, Confidence, DayView, HhMm, IsoDate, Meta } from "./types";
+import type {
+  AccuracyView,
+  Confidence,
+  DayView,
+  HhMm,
+  IsoDate,
+  IsoUtc,
+  Meta,
+  RevisionsView,
+} from "./types";
 
 /** An API call failed. ``message`` is safe to show to the buyer. */
 export class ApiError extends Error {
@@ -62,4 +71,6 @@ export const api = {
     getJson<DayView>("/api/day", { ...query }, signal),
   accuracy: (query: Omit<DayQuery, "date">, signal: AbortSignal) =>
     getJson<AccuracyView>("/api/accuracy", { ...query }, signal),
+  revisions: (query: { start_time: IsoUtc; cutoff: HhMm }, signal: AbortSignal) =>
+    getJson<RevisionsView>("/api/revisions", { ...query }, signal),
 };

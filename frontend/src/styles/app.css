@@ -43,6 +43,9 @@ button {
   position: absolute;
   width: 1px;
   height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
@@ -694,4 +697,279 @@ button {
   *::after {
     transition: none !important;
   }
+}
+
+/* Sections below the decision: accuracy, revisions, method. */
+
+.section-title {
+  font-size: var(--text-l);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.accuracy,
+.revisions,
+.method {
+  display: grid;
+  gap: var(--gap-4);
+  align-content: start;
+  min-width: 0;
+  padding: var(--gap-5);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.accuracy__intro {
+  display: grid;
+  gap: var(--gap-2);
+  max-width: var(--measure);
+}
+
+.accuracy__intro p {
+  color: var(--ink-soft);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--gap-4) var(--gap-5);
+}
+
+.metrics > div {
+  display: grid;
+  gap: var(--gap-1);
+  align-content: start;
+}
+
+.metrics dt {
+  color: var(--ink-soft);
+}
+
+.metrics dd {
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.metrics dd span {
+  font-size: var(--text-m);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.metrics dd.is-risk {
+  color: var(--margin);
+}
+
+.metrics p {
+  font-size: var(--text-s);
+  color: var(--ink-soft);
+}
+
+.accuracy__charts {
+  display: grid;
+  gap: var(--gap-5);
+  padding-top: var(--gap-3);
+}
+
+@media (min-width: 64rem) {
+  .accuracy__charts {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.chart-title {
+  margin: 0;
+  font-size: var(--text-m);
+  font-weight: 600;
+}
+
+.chart-note {
+  margin: var(--gap-1) 0 var(--gap-3);
+  color: var(--ink-soft);
+  max-width: var(--measure);
+}
+
+.column-chart,
+.revisions__figure {
+  margin: 0;
+}
+
+.column-chart svg,
+.revisions__figure svg {
+  display: block;
+}
+
+.column-chart__grid {
+  stroke: var(--grid);
+}
+
+.column-chart__zero {
+  stroke: var(--late);
+}
+
+.column-chart__axis {
+  fill: var(--ink-soft);
+  font-size: 12px;
+  font-family: var(--font);
+}
+
+.column-chart__bar.is-size {
+  fill: var(--rail);
+}
+
+.column-chart__bar.is-size.is-highlight {
+  fill: var(--ink);
+}
+
+.column-chart__bar.is-high {
+  fill: var(--margin);
+}
+
+.column-chart__bar.is-low {
+  fill: var(--wind);
+}
+
+.revisions__body {
+  display: grid;
+  gap: var(--gap-4) var(--gap-5);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .revisions__body {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+
+  .method__details dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--gap-6);
+  }
+
+  .method__details dl > div:nth-child(-n + 2) dt {
+    margin-top: 0;
+  }
+}
+
+.revisions__story {
+  font-size: var(--text-l);
+  line-height: 1.4;
+  max-width: var(--measure);
+}
+
+.revisions__line {
+  fill: none;
+  stroke: var(--wind);
+  stroke-width: 2.5;
+}
+
+.revisions__point {
+  fill: var(--surface);
+  stroke: var(--late);
+  stroke-width: 2;
+}
+
+.revisions__point.is-available {
+  fill: var(--wind);
+  stroke: var(--wind);
+}
+
+.revisions__point.is-used {
+  fill: var(--surface);
+  stroke: var(--wind);
+  stroke-width: 4;
+}
+
+.revisions__cutoff {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.revisions__cutoff-label {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font);
+}
+
+.revisions__actual {
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+
+.revisions__key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-1) var(--gap-4);
+  margin-top: var(--gap-2);
+  font-size: var(--text-s);
+  color: var(--ink-soft);
+}
+
+.revisions__key > span {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-2);
+}
+
+.swatch--late {
+  background: var(--surface);
+  border: 2px solid var(--late);
+  border-radius: 50%;
+}
+
+.method__details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--wind);
+  padding: var(--gap-1) 0;
+}
+
+.method__details dl {
+  display: grid;
+  gap: var(--gap-1);
+  margin-top: var(--gap-3);
+}
+
+.method__details dl > div {
+  display: grid;
+  gap: var(--gap-1);
+  align-content: start;
+}
+
+.method__details dt {
+  margin-top: var(--gap-3);
+  font-weight: 600;
+}
+
+.method__details dl > div:first-child dt {
+  margin-top: 0;
+}
+
+.method__details dd {
+  color: var(--ink);
+  max-width: var(--measure);
+}
+
+@media (max-width: 40rem) {
+  .accuracy,
+  .revisions,
+  .method {
+    padding: var(--gap-4) var(--gap-3);
+  }
+}
+
+/* Charts measure their own width; let grid cells shrink so the first measurement is honest. */
+.accuracy__charts > div,
+.revisions__body > *,
+.column-chart,
+.revisions__figure {
+  min-width: 0;
+}
+
+.column-chart,
+.revisions__figure {
+  overflow: hidden;
 }
